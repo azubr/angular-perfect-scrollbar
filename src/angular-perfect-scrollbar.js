@@ -24,17 +24,19 @@ angular.module('perfect_scrollbar', []).directive('perfectScrollbar',
 
       $scope.$evalAsync(function() {
         $elem.perfectScrollbar(options);
-        var onScrollHandler = $parse($attr.onScroll)
-        $elem.scroll(function(){
-          var scrollTop = $elem.scrollTop()
-          var scrollHeight = $elem.prop('scrollHeight') - $elem.height()
-          $scope.$apply(function() {
-            onScrollHandler($scope, {
-              scrollTop: scrollTop,
-              scrollHeight: scrollHeight
+        if ($attr.onScroll) {
+          var onScrollHandler = $parse($attr.onScroll)
+          $elem.scroll(function(){
+            var scrollTop = $elem.scrollTop()
+            var scrollHeight = $elem.prop('scrollHeight') - $elem.height()
+            $scope.$apply(function() {
+              onScrollHandler($scope, {
+                scrollTop: scrollTop,
+                scrollHeight: scrollHeight
+              })
             })
-          })
-        });
+          });
+        }        
       });
 
       function update(event) {
